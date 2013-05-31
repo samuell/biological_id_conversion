@@ -5,9 +5,13 @@ $ensemblID = "ENSG00000157764";
 $ensemblResultJson = file_get_contents("http://beta.rest.ensembl.org/xrefs/id/$ensemblID?content-type=application/json");
 $ensemblResult = json_decode($ensemblResultJson, true);
 
-// Print out the structure of the resulting array structure
+// Print out each found gene name on a separate row
 echo "<pre>";
-print_r($ensemblResult);
+foreach ($ensemblResult as $mapping) {
+    if ( in_array( $mapping['dbname'], array("EntrezGene","HGNC"))) {
+        echo "Found Gene symbol: " . $mapping['display_id'] . "\n";
+    }
+}
 echo "</pre>";
 
 ?>
